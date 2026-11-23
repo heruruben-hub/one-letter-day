@@ -22,13 +22,29 @@ import os
 import sys
 
 # The entry: one letter, A-Z. D for doomscrolling.
+#
+# Why D, and why doomscrolling: the word behind the letter is the whole
+# entry, so it has to land at once. Doomscrolling is the day that never
+# happened — it began with "just one quick check" and ended with the
+# thumb still flicking at 2 a.m., the feed refilling itself faster than
+# any human could ever finish it. It is vivid (the glow of the screen in
+# a dark room), funny because it is true, and true because everybody has
+# lived it. D is also the shape of the day: a half-finished circle, the
+# loop that never closes. No other single letter carries a day like that.
 LETTER = "D"
+
+# The full alphabet the gate accepts, as an explicit set rather than a
+# range comparison, so the validation says exactly what it allows.
+VALID_LETTERS = frozenset("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 
 def main() -> int:
-    if len(LETTER) != 1 or not ("A" <= LETTER <= "Z"):
-        print("entry letter must be exactly one character A-Z",
-              file=sys.stderr)
+    if len(LETTER) != 1 or LETTER not in VALID_LETTERS:
+        print(
+            f"entry letter must be exactly one character A-Z; "
+            f"got {LETTER!r} (length {len(LETTER)})",
+            file=sys.stderr,
+        )
         return 1
 
     os.makedirs("/output", exist_ok=True)
